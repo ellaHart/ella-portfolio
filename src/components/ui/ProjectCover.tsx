@@ -39,7 +39,8 @@ export function ProjectCover({ project, sizes = '60vw', className = '', parallax
   const videoRef = useRef<HTMLVideoElement>(null);
   const showVideo = allowVideo && video && !reduce;
 
-  // Only play while on screen: saves battery and keeps scrolling smooth.
+  // Only play while on screen: saves battery and keeps scrolling smooth. There is
+  // deliberately no autoPlay attribute, so off-screen previews never start downloading.
   useEffect(() => {
     const el = videoRef.current;
     if (!el) return;
@@ -64,7 +65,6 @@ export function ProjectCover({ project, sizes = '60vw', className = '', parallax
           muted
           loop
           playsInline
-          autoPlay
           preload="metadata"
           aria-label={`${project.title}: prototype preview`}
         />

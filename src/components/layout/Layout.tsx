@@ -20,6 +20,21 @@ function ScrollManager() {
   return null;
 }
 
+const ORIGIN = 'https://ellahartsell.com';
+
+/** Point the canonical and og:url tags at the current route, so each page is indexed as itself. */
+function CanonicalUrl() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const url = ORIGIN + (pathname === '/' ? '/' : pathname.replace(/\/$/, ''));
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', url);
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', url);
+  }, [pathname]);
+
+  return null;
+}
+
 export function Layout() {
   return (
     <>
@@ -27,6 +42,7 @@ export function Layout() {
         Skip to content
       </a>
       <ScrollManager />
+      <CanonicalUrl />
       <SiteHeader />
       <main id="main" tabIndex={-1}>
         <Outlet />

@@ -140,7 +140,7 @@ Sources live in `assets-source/tiny-tempo/`: the team's Figma board (`board.png`
 
 | File | How it was made |
 | --- | --- |
-| `video/tiny-tempo-prototype.mp4` | Full 75 s recording, video stream only (the audio track was silent), remuxed with `-movflags +faststart` |
+| `video/tiny-tempo-prototype.mp4` | Full 75 s recording at 1920×1080, silent audio removed, re-encoded (x264 CRF 25, `-tune stillimage`, faststart): 26 MB → 10 MB |
 | `video/tiny-tempo-preview.mp4` | 13.5 s muted loop: segments 4–6.5 s (pairing), 10–12.5 (dashboard), 21–23.5 (specialists), 46.5–48.5 (messaging), 69–71 (device approval), 72–74 (patient directory); concatenated, `scale=1600:-2,fps=30`, libx264 CRF 26 |
 | `stills/*-poster.png` | Frames at 10.5 s (preview) and 0.5 s (prototype) |
 

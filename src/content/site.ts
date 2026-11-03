@@ -34,8 +34,11 @@ export const site = {
       { title: 'Prototype early', body: 'Get ideas into people’s hands quickly, from paper sketches to interactive builds, and let feedback steer.' },
       { title: 'Build it right', body: 'Carry the design into code with care for accessibility, performance, and the small interactions that make it feel finished.' },
     ],
-    philosophy:
-      'Good design is invisible until it’s missing. I aim for interfaces that feel obvious in hindsight: clear structure, honest feedback, and a little delight where it earns its place.',
+    philosophy: {
+      quote: 'Fail often, fail fast.',
+      author: 'Donald A. Norman',
+      source: 'The Design of Everyday Things',
+    },
     interests: ['Design systems', 'Interaction & motion', 'Player experience', 'Accessible front-ends', 'Creative coding'],
   },
 

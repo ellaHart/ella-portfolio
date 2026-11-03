@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import type { CaseStudyBlock, ImageAsset } from '../../content/types';
 import { AutoScrollGallery } from '../ui/AutoScrollGallery';
 import { CaseVideo } from '../ui/CaseVideo';
@@ -19,7 +20,13 @@ export const pad = (n: number) => String(n).padStart(2, '0');
 
 export function ExpandableImage({ image, caption, onOpen, sizes }: { image: ImageAsset; caption?: string; onOpen: OpenImage; sizes?: string }) {
   return (
-    <button type="button" className={styles.expand} onClick={() => onOpen(image, caption)} aria-label={`Expand image: ${image.alt}`}>
+    <button
+      type="button"
+      className={styles.expand}
+      onClick={() => onOpen(image, caption)}
+      aria-label={`Expand image: ${image.alt}`}
+      style={{ '--aspect': image.width / image.height } as CSSProperties}
+    >
       <img src={image.src} alt="" width={image.width} height={image.height} loading="lazy" decoding="async" sizes={sizes} />
       <span className={styles.expandHint} aria-hidden="true">
         <Icon name="arrow-up-right" size={14} /> Expand

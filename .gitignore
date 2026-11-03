@@ -2,3 +2,13 @@ node_modules
 dist
 *.local
 .DS_Store
+
+# Local secrets: never commit these. (VITE_* variables are bundled into the
+# browser build, so they must never hold secrets either.)
+.env
+.env.*
+!.env.example
+
+# Build caches and local deployment metadata
+*.tsbuildinfo
+.vercel

@@ -6,20 +6,28 @@
     <title>Ella Hartsell | UI/UX Designer & Developer</title>
     <meta name="description" content="Ella Hartsell designs and develops thoughtful digital experiences that balance usability, functionality, and creativity." />
     <meta name="theme-color" content="#F8F2E8" />
+    <link rel="canonical" href="https://ellahartsell.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ella Hartsell" />
+    <meta property="og:title" content="Ella Hartsell | UI/UX Designer & Developer" />
+    <meta property="og:description" content="Ella Hartsell designs and develops thoughtful digital experiences that balance usability, functionality, and creativity." />
+    <meta property="og:url" content="https://ellahartsell.com/" />
+    <meta property="og:image" content="https://ellahartsell.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ella Hartsell, UI/UX Designer & Developer" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="preload" as="image" href="/images/brand/headshot-suit-1000.webp" type="image/webp" />
-    <script>
-      // Apply the saved presentation mode and theme before first paint to avoid a flash.
-      (function () {
-        var root = document.documentElement, saved = null;
-        try {
-          if (localStorage.getItem('eh:mode') === 'creative') root.dataset.mode = 'creative';
-          saved = localStorage.getItem('eh:theme');
-        } catch (e) {}
-        root.dataset.theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      })();
-    </script>
+    <link
+      rel="preload"
+      as="image"
+      href="/images/brand/headshot-suit-1000.webp"
+      imagesrcset="/images/brand/headshot-suit-640.webp 640w, /images/brand/headshot-suit-1000.webp 1000w, /images/brand/headshot-suit-1400.webp 1400w"
+      imagesizes="(min-width: 60rem) 34vw, 80vw"
+      type="image/webp"
+    />
+    <script src="/theme-init.js"></script>
   </head>
   <body>
     <div id="root"></div>

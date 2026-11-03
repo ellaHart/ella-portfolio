@@ -46,9 +46,14 @@ export default function About() {
             ))}
           </div>
 
-          <blockquote className={styles.philosophy}>
-            <p>{about.philosophy}</p>
-          </blockquote>
+          <figure className={styles.philosophy}>
+            <blockquote>
+              <p>“{about.philosophy.quote}”</p>
+            </blockquote>
+            <figcaption className={styles.attribution}>
+              — {about.philosophy.author}, <cite>{about.philosophy.source}</cite>
+            </figcaption>
+          </figure>
 
           <div className={styles.interests}>
             <p className="label">Currently interested in</p>
