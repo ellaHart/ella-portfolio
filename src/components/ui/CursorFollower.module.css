@@ -1,0 +1,32 @@
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+.cursor::before {
+  content: attr(data-label);
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 0.7rem;
+  height: 0.7rem;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--charcoal);
+  color: transparent;
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  transition:
+    width 450ms var(--ease-out-expo),
+    height 450ms var(--ease-out-expo),
+    background-color 300ms ease,
+    color 200ms ease;
+}
+.cursor[data-active]::before {
+  width: 5.5rem;
+  height: 5.5rem;
+  background: rgb(220 206 179 / 0.92);
+  color: var(--on-paper);
+}

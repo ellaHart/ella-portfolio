@@ -1,0 +1,89 @@
+.wrap {
+  position: relative;
+  min-width: 0; /* stay inside grid/flex parents instead of growing to the track's width */
+  max-width: 100%;
+  /* Soft fade at both edges so cards drift in and out rather than clip */
+  mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+}
+.scroller {
+  position: relative;
+  overflow-x: auto;
+  padding-block: var(--space-2) var(--space-4);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-rule) transparent;
+  overscroll-behavior-x: contain;
+}
+.scroller:focus-visible {
+  outline-offset: -2px;
+}
+/* With no auto-drift, snap card to card for easier manual browsing */
+.scroller[data-static] {
+  scroll-snap-type: x mandatory;
+}
+.scroller[data-static] .card {
+  scroll-snap-align: start;
+}
+
+.track {
+  display: flex;
+  gap: var(--space-4);
+  width: max-content;
+}
+/* The duplicate set sits after the originals with the same gap, so scrolling
+   by (copy start - first card) lands on an identical frame */
+.copy {
+  flex: 0 0 auto;
+}
+
+.card {
+  flex: 0 0 auto;
+  width: clamp(17.5rem, 24vw, 21rem); /* ~280–336px */
+  display: grid;
+  gap: var(--space-2);
+}
+.media {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--color-rule);
+  border-radius: 6px;
+  background: var(--ivory-deep);
+}
+button.media {
+  cursor: zoom-in;
+}
+.media img {
+  width: 100%;
+  height: auto; /* keep the screenshot's own proportions */
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+button.media:hover img {
+  transform: scale(1.02);
+}
+.placeholder {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(120% 90% at 20% 10%, rgb(255 255 255 / 0.35), transparent 60%),
+    linear-gradient(160deg, var(--ph-1), var(--ph-2));
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ph-ink);
+}
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-2);
+  font-size: var(--text-sm);
+}
+.title {
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+.detail {
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+}

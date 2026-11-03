@@ -1,0 +1,46 @@
+/* --------------------------------------------------------------------------
+   Brand fonts
+   The Seasons (display) and Garet (sans) are the brand typefaces. Once the
+   licensed web-font files are in /public/fonts, uncomment the block below.
+   The token stacks in tokens.css already list them first, so they take over
+   automatically and the fallbacks below stop being used.
+   -------------------------------------------------------------------------- */
+
+/*
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/TheSeasons-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/TheSeasons-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Garet';
+  src: url('/fonts/Garet-Book.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Garet';
+  src: url('/fonts/Garet-Heavy.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+*/
+
+/* Interim fallbacks, self-hosted via Fontsource (latin subset only) */
+@import '@fontsource/cormorant-garamond/latin-400.css';
+@import '@fontsource/cormorant-garamond/latin-500.css';
+@import '@fontsource/cormorant-garamond/latin-400-italic.css';
+@import '@fontsource/cormorant-garamond/latin-500-italic.css';
+@import '@fontsource/outfit/latin-300.css';
+@import '@fontsource/outfit/latin-400.css';
+@import '@fontsource/outfit/latin-500.css';
+@import '@fontsource/caveat/latin-500.css';

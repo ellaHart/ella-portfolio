@@ -1,0 +1,140 @@
+/* ==========================================================================
+   Design tokens
+   Brand palette is fixed; derived ink tones exist only to guarantee contrast.
+   ========================================================================== */
+
+:root {
+  /* Brand palette */
+  --taupe: #958578;
+  --champagne: #dcceb3;
+  --charcoal: #635d56;
+  --mauve: #cbc3bf;
+  --ivory: #f8f2e8;
+
+  /* Derived */
+  --ink: #3b3632;          /* body text, ~9:1 on ivory */
+  --ink-soft: #635d56;     /* headings, UI chrome, ~5.6:1 on ivory */
+  --ink-faint: #7a7068;    /* captions & metadata, ~4.5:1 on ivory */
+  --paper: #fffaf2;        /* raised surfaces (polaroids, windows) */
+  --ivory-deep: #f1e8da;   /* alternate section background */
+  --night: #2e2a27;        /* dark section (contact) */
+  --night-ink: #f4ede2;
+  --on-paper: #3b3632;     /* text on light paper/champagne in both themes */
+  --desk: #e1d7c2;         /* sandy surface behind windows & polaroids */
+  --desk-accent: #6f6359;  /* italic accents on the desk */
+  --ph-1: #d6d4d2;         /* greyscale image placeholders */
+  --ph-2: #b9b6b3;
+  --ph-ink: #4a4846;
+  --error: #8a2f20;
+  --error-bg: #f6e7e2;
+  --ok: #4f7a3a;
+  --ok-bg: #e9efe0;
+
+  /* Semantic */
+  --color-bg: var(--ivory);
+  --color-text: var(--ink);
+  --color-heading: var(--ink-soft);
+  --color-muted: var(--ink-faint);
+  --color-accent: var(--taupe);
+  --color-highlight: var(--champagne);
+  --color-rule: var(--mauve);
+  --color-focus: #4a3f36;
+
+  /* Typography */
+  --font-display: 'The Seasons', 'Cormorant Garamond', 'Cormorant', Georgia, serif;
+  --font-sans: 'Garet', 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-hand: 'Caveat', 'Segoe Print', cursive;
+
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: clamp(1.125rem, 1rem + 0.4vw, 1.3125rem);
+  --text-xl: clamp(1.375rem, 1.1rem + 0.9vw, 1.875rem);
+  --text-2xl: clamp(2rem, 1.4rem + 2vw, 3.25rem);
+  --text-3xl: clamp(2.75rem, 1.6rem + 4vw, 5.5rem);
+  --text-display: clamp(4rem, 1rem + 10.5vw, 13rem);
+
+  --tracking-label: 0.16em;
+  --leading-tight: 0.92;
+  --leading-snug: 1.15;
+  --leading-body: 1.65;
+
+  /* Space (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-section: clamp(6rem, 4rem + 8vw, 12rem);
+
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 3rem);
+  --max-width: 92rem;
+  --header-height: 4.5rem;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 180ms;
+  --dur-base: 420ms;
+  --dur-slow: 900ms;
+
+  --radius-sm: 2px;
+  --radius-pill: 999px;
+}
+
+/* Creative Mode: only presentation tokens shift. Contrast pairs are kept. */
+:root[data-mode='creative'] {
+  --color-bg: #f6eee0;
+  --color-accent: #8a7766;
+  --color-highlight: #e3d3b5;
+}
+
+/* --------------------------------------------------------------------------
+   Dark theme: warm espresso surfaces, champagne headings. Base tokens are
+   remapped (not just semantic ones) because components reference them
+   directly; pairs like ink-on-ivory therefore invert cleanly.
+   -------------------------------------------------------------------------- */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --ink: #ebe4d8;          /* body, ~13:1 on bg */
+  --ink-soft: #e2d6c1;     /* headings */
+  --ink-faint: #a99e91;    /* metadata, ~6.6:1 on bg */
+  --charcoal: #cbc3bf;     /* UI chrome & strokes */
+  --taupe: #b9a898;        /* accents, ~7:1 on bg */
+  --mauve: #3e3833;        /* rules */
+  --ivory: #1d1a18;
+  --ivory-deep: #272320;
+  --paper: #efe7da;        /* polaroids stay paper-light */
+  --night: #141210;
+  --desk: #2a2521;
+  --desk-accent: #cdbca9;
+  --ph-1: #45413d;
+  --ph-2: #33302d;
+  --ph-ink: #d2ccc5;
+  --error: #f0a493;
+  --error-bg: #3a2420;
+  --ok: #a7d093;
+  --ok-bg: #1f2a1b;
+
+  --color-bg: #1d1a18;
+  --color-focus: #e2d6c1;
+}
+:root[data-theme='dark'][data-mode='creative'] {
+  --color-bg: #201c19;
+  --color-accent: #c7b5a2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+  }
+}

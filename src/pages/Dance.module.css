@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Dance: introduction, pinned video stack, and polaroids on a sandy desk
+   ========================================================================== */
+
+.page {
+  padding-top: calc(var(--header-height) + var(--space-8));
+  padding-bottom: var(--space-section);
+}
+
+/* ---------- Introduction ---------- */
+.header {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+}
+.title {
+  font-size: clamp(4.5rem, 2rem + 13vw, 12rem);
+  line-height: 0.85;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.subtitle {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: 1.15;
+  color: var(--ink-soft);
+}
+.subtitle em {
+  color: var(--desk-accent); /* taupe darkened for contrast on the sandy canvas */
+}
+.lede {
+  max-width: 38rem;
+  margin-top: var(--space-3);
+  font-size: var(--text-lg);
+  color: var(--ink);
+}
+
+/* ---------- Section headings ---------- */
+.videos,
+.photos {
+  margin-top: var(--space-section);
+}
+.sectionHead {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+  margin-bottom: var(--space-6);
+}
+.sectionTitle {
+  font-size: var(--text-3xl);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.sectionTitle em {
+  color: var(--desk-accent);
+}
+.sectionLede {
+  font-size: var(--text-lg);
+  color: var(--ink);
+}
+/* The unpinned (reduced-motion) video list keeps page gutters */
+.videos > div:last-child:not([data-stacked]) {
+  padding-inline: var(--gutter);
+}
+
+/* ---------- Canvas ---------- */
+.canvas {
+  position: relative;
+  padding-inline: var(--gutter);
+}
+.hint {
+  display: none;
+}
+.wall {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-6) var(--space-5);
+}
+.slot:nth-child(even) {
+  margin-top: var(--space-6);
+}
+
+.polaroid {
+  display: block;
+  width: min(42vw, 13rem);
+  padding: 0.6rem 0.6rem 1.6rem; /* classic polaroid: deeper bottom border */
+  background: var(--paper);
+  border: 1px solid rgb(99 93 86 / 0.18);
+  border-radius: 2px;
+  box-shadow: 0 14px 28px -18px rgb(46 42 39 / 0.55);
+  rotate: var(--r);
+  cursor: grab;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition:
+    rotate 500ms var(--ease-spring),
+    scale 300ms var(--ease-spring),
+    box-shadow 300ms ease;
+}
+.polaroid:hover,
+.polaroid:focus-visible {
+  rotate: 0deg;
+  scale: 1.04;
+  box-shadow: 0 24px 40px -20px rgb(46 42 39 / 0.6);
+}
+.polaroid[data-dragging] {
+  cursor: grabbing;
+  rotate: 0deg;
+  scale: 1.07;
+  box-shadow: 0 30px 50px -22px rgb(46 42 39 / 0.65);
+}
+.photo {
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #d6d0c6;
+}
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+/* On phones the polaroids stay in flow, so touches scroll the page and a tap opens the photo */
+@media (max-width: 47.99rem) {
+  .polaroid {
+    touch-action: auto;
+    cursor: zoom-in;
+  }
+}
+
+/* ---------- Floating, draggable layout (tablet and up) ---------- */
+@media (min-width: 48rem) {
+  .canvas {
+    height: clamp(40rem, 70vw, 52rem);
+    max-width: var(--max-width);
+    margin-inline: auto;
+  }
+  .hint {
+    display: block;
+    position: absolute;
+    right: var(--gutter);
+    bottom: 0;
+    rotate: -4deg;
+    --hand-ink: var(--desk-accent);
+  }
+  .wall {
+    display: block;
+    position: absolute;
+    inset: 0 var(--gutter);
+  }
+  .slot {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+  }
+  .slot:nth-child(even) {
+    margin-top: 0;
+  }
+  .polaroid {
+    width: clamp(11rem, 15vw, 14rem);
+  }
+}
+
+@media (min-width: 48rem) and (prefers-reduced-motion: no-preference) {
+  /* The slot floats; the polaroid inside handles hover/drag, so the two never fight */
+  .slot {
+    animation: drift 7s ease-in-out var(--float-delay) infinite alternate;
+  }
+  .slot:has([data-dragging]) {
+    animation-play-state: paused;
+  }
+}
+@keyframes drift {
+  0% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 6px -10px;
+  }
+  100% {
+    translate: -4px 6px;
+  }
+}

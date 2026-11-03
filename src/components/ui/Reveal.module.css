@@ -1,0 +1,21 @@
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    transition:
+      opacity var(--dur-slow) var(--ease-out-expo) var(--delay),
+      transform var(--dur-slow) var(--ease-out-expo) var(--delay),
+      clip-path 1.2s var(--ease-out-expo) var(--delay);
+  }
+  .rise:not([data-revealed]) {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  .fade:not([data-revealed]) {
+    opacity: 0;
+  }
+  .mask {
+    clip-path: inset(0 0 0 0);
+  }
+  .mask:not([data-revealed]) {
+    clip-path: inset(100% 0 0 0);
+  }
+}

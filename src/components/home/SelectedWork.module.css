@@ -1,0 +1,300 @@
+.section {
+  position: relative;
+  padding-top: var(--space-section);
+}
+
+.pin {
+  position: relative;
+  /* `clip` (not `hidden`) so focusing an off-screen link can't scroll this box sideways */
+  overflow: clip;
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: 0;
+  z-index: 5;
+  padding: var(--space-2) var(--space-3);
+  background: var(--ink);
+  color: var(--ivory);
+  font-size: var(--text-sm);
+  transform: translateY(-150%);
+}
+.skip:focus {
+  transform: none;
+}
+
+/* ---------- Mobile / reduced motion: vertical editorial stack ---------- */
+.track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-9);
+  padding-inline: var(--gutter);
+}
+
+.intro {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: start;
+  max-width: 36rem;
+}
+.count {
+  color: var(--taupe);
+}
+.introHeading {
+  font-size: var(--text-3xl);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.introHeading em {
+  color: var(--taupe);
+}
+.introCopy {
+  color: var(--ink);
+  max-width: 30rem;
+}
+.introNote {
+  display: none;
+}
+
+.panel {
+  display: grid;
+  gap: var(--space-6);
+}
+.media {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  transition: transform 700ms var(--ease-out-expo), padding 600ms var(--ease-out-expo), background-color 600ms ease;
+}
+.info {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+.index {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  color: var(--ink-faint);
+}
+.indexRule {
+  width: 3rem;
+  height: 1px;
+  background: var(--color-rule);
+}
+.title {
+  font-size: var(--text-3xl);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+.headline {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--ink-soft);
+  max-width: 28ch;
+}
+.summary {
+  color: var(--ink);
+  max-width: 44ch;
+}
+.facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin: 0;
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--color-rule);
+}
+.facts dd {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+  color: var(--ink);
+}
+.cta {
+  margin-top: var(--space-2);
+}
+
+.outro {
+  display: flex;
+}
+.outroLink {
+  display: grid;
+  gap: var(--space-3);
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--color-rule);
+  width: 100%;
+}
+.outroText {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  line-height: 1;
+  color: var(--ink-soft);
+}
+.outroText em {
+  color: var(--taupe);
+}
+.outroArrow {
+  font-size: var(--text-2xl);
+  color: var(--ink-soft);
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+.outroLink:hover .outroArrow {
+  transform: translateX(0.5rem);
+}
+
+.progress {
+  display: none;
+}
+
+/* ---------- Desktop with motion: pinned horizontal gallery ---------- */
+@media (min-width: 60rem) and (prefers-reduced-motion: no-preference) {
+  .section {
+    padding-top: var(--space-8);
+  }
+  .pin {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+  .track {
+    flex: 1;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    width: max-content;
+    padding-top: calc(var(--header-height) + var(--space-4));
+    padding-bottom: var(--space-6);
+    padding-inline: var(--gutter) 0;
+    will-change: transform;
+  }
+
+  .intro {
+    width: clamp(22rem, 34vw, 32rem);
+    margin-right: 6vw;
+    align-content: center;
+  }
+  .introHeading {
+    font-size: clamp(3rem, 1rem + 4vw, 5.5rem);
+  }
+  .introNote {
+    position: relative;
+  }
+
+  .panel {
+    width: min(78vw, 82rem);
+    height: 100%;
+    grid-template-columns: 1.35fr 1fr;
+    gap: clamp(2rem, 4vw, 4.5rem);
+    padding-right: 7vw;
+    align-items: center;
+  }
+  .media {
+    aspect-ratio: auto;
+    height: min(100%, 38rem);
+  }
+  .title {
+    font-size: clamp(2.75rem, 1rem + 3.4vw, 5rem);
+  }
+  .info {
+    align-content: center;
+  }
+
+  .outro {
+    width: 40vw;
+    align-items: center;
+    padding-right: var(--gutter);
+  }
+  .outroLink {
+    border-top: 0;
+    border-left: 1px solid var(--color-rule);
+    padding: 0 0 0 var(--space-7);
+  }
+  .outroText {
+    font-size: clamp(3rem, 1rem + 4vw, 6rem);
+  }
+
+  .progress {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    padding: 0 var(--gutter) var(--space-5);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .counter {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+  }
+  .rail {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    background: var(--color-rule);
+    overflow: hidden;
+  }
+  .bar {
+    position: absolute;
+    inset: 0;
+    background: var(--charcoal);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+}
+
+/* ---------- Creative Mode ---------- */
+:root[data-mode='creative'] .media {
+  padding: 0.7rem 0.7rem 2.75rem;
+  background: var(--paper);
+  box-shadow: 0 20px 40px -24px rgb(46 42 39 / 0.45);
+}
+:root[data-mode='creative'] .panel:nth-of-type(odd) .media {
+  transform: rotate(-1.5deg);
+}
+:root[data-mode='creative'] .panel:nth-of-type(even) .media {
+  transform: rotate(1.25deg);
+}
+:root[data-mode='creative'] .media:hover {
+  transform: rotate(0deg) scale(1.015);
+}
+:root[data-mode='creative'] .title {
+  font-style: italic;
+}
+@media (min-width: 60rem) and (prefers-reduced-motion: no-preference) {
+  :root[data-mode='creative'] .introNote {
+    display: block;
+    --hand-ink: var(--taupe);
+    rotate: -4deg;
+  }
+}
+
+/* Video previews: the frame takes the video's own aspect ratio (no letterboxing).
+   content-box keeps the ratio exact even when Creative Mode adds a paper border. */
+.media[data-video] {
+  aspect-ratio: var(--media-ratio);
+  height: auto;
+  box-sizing: content-box;
+  align-self: center;
+}
+
+/* Desktop gallery: video panels grow so the video is as tall as the
+   description beside it (--info-h is measured in SelectedWork.tsx).
+   The info column keeps a fixed width so its height stays stable. */
+@media (min-width: 60rem) and (prefers-reduced-motion: no-preference) {
+  .panel[data-video-panel] {
+    width: auto;
+    grid-template-columns: auto 34rem; /* widest useful column = shortest description = smallest video */
+  }
+  .panel[data-video-panel] .media[data-video] {
+    height: var(--info-h, 22rem);
+    width: calc(var(--info-h, 22rem) * var(--media-ratio));
+    aspect-ratio: auto;
+  }
+}

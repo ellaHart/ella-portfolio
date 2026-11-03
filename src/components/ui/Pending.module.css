@@ -1,0 +1,33 @@
+.pending {
+  font-style: italic;
+  color: var(--ink-faint);
+  background: repeating-linear-gradient(-45deg, transparent 0 6px, rgb(203 195 191 / 0.35) 6px 7px);
+  padding: 0 0.3em;
+  border-radius: var(--radius-sm);
+}
+
+:root[data-theme='dark'] .pending {
+  background: repeating-linear-gradient(-45deg, transparent 0 6px, rgb(255 255 255 / 0.07) 6px 7px);
+}
+
+.image {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  background:
+    linear-gradient(135deg, transparent 49.8%, rgb(149 133 120 / 0.22) 50%, transparent 50.2%),
+    linear-gradient(45deg, transparent 49.8%, rgb(149 133 120 / 0.22) 50%, transparent 50.2%),
+    var(--ivory-deep);
+  border: 1px solid var(--color-rule);
+}
+.imageLabel {
+  padding: var(--space-2) var(--space-3);
+  background: var(--ivory);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  text-align: center;
+  max-width: 80%;
+}

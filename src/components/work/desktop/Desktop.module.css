@@ -1,0 +1,1064 @@
+/* ==========================================================================
+   Interactive desktop (Work page): a cozy pixel-art Mac desktop.
+   Pixel-art University of Miami wallpaper, a menu bar, desktop icons and a
+   Finder-style window in warm cream with thin dark-brown outlines.
+   Shared by DesktopWindow, FolderNav, GameGallery, CertificationGallery,
+   CertificatePreview and PixelIcon. Tokens are scoped to .desktop so nothing
+   leaks into the rest of the site.
+   ========================================================================== */
+
+.desktop {
+  --paper: #fbf5e8;
+  --cream: #f6ecd8;
+  --linen: #efe2c6;
+  --stone: #e5d3ae;
+  --outline: #4a3424;
+  --moss-ink: #3a2a1c;
+  --olive: #5b4636;
+  --sage: #735f4d;
+  --hairline: #d8c49e;
+  --accent: #e0702a;
+  --accent-dark: #c45c1b;
+  --accent-text: #9e4316; /* darker orange so small text passes AA on cream */
+  --accent-soft: rgb(224 112 42 / 0.14);
+  --marigold: #f1b43c;
+  --green: #6aa84f;
+  --flame: #d9531e;
+  --runde: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --plex: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --ease: 0.15s ease;
+  --radius: 14px;
+  --shadow: 0 22px 44px -18px rgb(46 28 12 / 0.55), 4px 4px 0 rgb(74 52 36 / 0.16);
+
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: 12px;
+  padding-bottom: 12px;
+  overflow: hidden;
+  border: 2px solid var(--outline);
+  border-radius: 18px;
+  background: #7fb24e; /* lawn green while the wallpaper loads */
+  color: var(--moss-ink);
+  font-family: var(--runde);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Shared focus ring */
+.desktop :focus-visible {
+  outline: 2px solid var(--outline);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgb(251 245 232 / 0.9);
+}
+
+/* ---------- Wallpaper ---------- */
+.wallpaper {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.wallpaper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 60%; /* phones: the U statue sits in the middle */
+}
+@media (min-width: 48rem) {
+  /* Wider than the box and anchored left, so the statue lands on the right
+     where the window doesn't cover it. */
+  .wallpaper img {
+    width: 125%;
+    max-width: none;
+    object-position: 0 62%;
+  }
+}
+
+/* ---------- Menu bar ---------- */
+.menubar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 32px;
+  padding: 0 14px;
+  border-bottom: 1px solid rgb(74 52 36 / 0.25);
+  background: rgb(250 241 222 / 0.88);
+  backdrop-filter: blur(10px);
+  font-family: var(--plex);
+  font-size: 13px;
+  color: var(--moss-ink);
+  white-space: nowrap;
+}
+.menuLeft,
+.menuRight,
+.menuItems {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.menuLeft b {
+  font-weight: 600;
+}
+.menuItems,
+.menuGlyph,
+.menuBattery {
+  display: none;
+}
+@media (min-width: 64rem) {
+  .menuItems,
+  .menuGlyph,
+  .menuBattery {
+    display: flex;
+  }
+}
+.menuLogo {
+  display: block;
+}
+.menuGlyph {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--moss-ink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.menuBattery {
+  width: 24px;
+  height: 13px;
+  fill: none;
+  stroke: var(--moss-ink);
+  stroke-width: 1.3;
+}
+.menuBatteryFill {
+  fill: var(--moss-ink);
+  stroke: none;
+}
+
+/* ---------- Desktop icons ---------- */
+.desktopIcons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 12px 0;
+}
+.deskIcon {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 92px;
+  padding: 6px 4px;
+  border-radius: 10px;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.deskIconArt {
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  filter: drop-shadow(2px 2px 0 rgb(46 28 12 / 0.35));
+  transition: translate 0.2s ease, background-color var(--ease), border-color var(--ease);
+}
+.deskIconLabel {
+  padding: 1px 7px;
+  border-radius: 6px;
+  background: rgb(251 245 232 / 0.88);
+  font-family: var(--plex);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--moss-ink);
+  transition: background-color var(--ease), color var(--ease);
+}
+.deskIcon:hover .deskIconArt {
+  translate: 0 -2px;
+}
+.deskIcon[aria-pressed='true'] .deskIconArt {
+  background: rgb(251 245 232 / 0.35);
+  border-color: rgb(251 245 232 / 0.8);
+}
+.deskIcon[aria-pressed='true'] .deskIconLabel {
+  background: var(--accent-dark);
+  color: #fff;
+}
+@media (min-width: 48rem) {
+  .desktopIcons {
+    position: absolute;
+    top: 44px;
+    left: 8px;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0;
+  }
+}
+
+.pixelIcon {
+  display: block;
+  image-rendering: pixelated;
+}
+
+/* ---------- Application window ---------- */
+.window {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0 12px;
+  overflow: clip;
+  border: 2px solid var(--outline);
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+.window:focus {
+  outline: none;
+}
+/* Phones: a simple, always-open file browser (no window controls). */
+.controls {
+  display: none;
+}
+@media (min-width: 48rem) {
+  .desktop {
+    display: block;
+    height: 40rem;
+    padding: 0;
+  }
+  .window {
+    position: absolute;
+    top: 48px;
+    left: 112px;
+    width: calc(100% - 128px);
+    height: calc(100% - 64px);
+    margin: 0;
+    transform-origin: 50% 100%;
+  }
+  .controls {
+    display: flex;
+  }
+  .window[data-maximized] {
+    top: 40px !important;
+    left: 8px !important;
+    width: calc(100% - 16px);
+    height: calc(100% - 48px);
+  }
+  .window[data-state='closed'],
+  .window[data-state='minimized'] {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .window[data-state='closed'] {
+    transform: scale(0.94);
+  }
+  .window[data-state='minimized'] {
+    transform: translateY(40%) scale(0.3);
+  }
+}
+@media (min-width: 64rem) {
+  .desktop {
+    height: 44rem;
+  }
+  .window {
+    width: clamp(36rem, 56%, 46rem);
+    max-height: 40rem;
+  }
+}
+@media (min-width: 48rem) and (prefers-reduced-motion: no-preference) {
+  .window {
+    transition:
+      opacity 0.2s ease,
+      transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+      visibility 0s linear 0s,
+      width 0.28s ease,
+      height 0.28s ease,
+      top 0.28s ease,
+      left 0.28s ease;
+  }
+  .window[data-state='closed'],
+  .window[data-state='minimized'] {
+    transition:
+      opacity 0.2s ease,
+      transform 0.28s ease,
+      visibility 0s linear 0.28s;
+  }
+  .window[data-dragging] {
+    transition: none;
+  }
+}
+
+.titlebar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 12px;
+  border-bottom: 2px solid var(--outline);
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 3px, rgb(74 52 36 / 0.06) 3px 4px),
+    var(--linen);
+  font-family: var(--plex);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--moss-ink);
+  user-select: none;
+}
+@media (min-width: 48rem) {
+  .titlebar {
+    cursor: grab;
+  }
+  .window[data-dragging] .titlebar {
+    cursor: grabbing;
+  }
+  .window[data-maximized] .titlebar {
+    cursor: default;
+  }
+}
+.windowTitle {
+  padding: 0 8px;
+  background: var(--linen);
+  pointer-events: none;
+}
+.controls {
+  position: absolute;
+  left: 12px;
+  gap: 8px;
+}
+.controls button {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--outline);
+  border-radius: 50%;
+  transition: filter var(--ease), scale 0.15s ease;
+}
+.controls button:hover {
+  filter: brightness(1.08);
+  scale: 1.12;
+}
+.ctlClose {
+  background: #ee5d4f;
+}
+.ctlMin {
+  background: #f3b33c;
+}
+.ctlMax {
+  background: #6cb64a;
+}
+
+/* ---------- Toolbar: back / forward + address bar ---------- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--cream);
+}
+.navBtn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: var(--moss-ink);
+  transition: background-color var(--ease);
+}
+.navBtn:hover:not(:disabled) {
+  background: var(--linen);
+}
+.navBtn:disabled {
+  opacity: 0.35;
+}
+.navBtn svg,
+.address svg,
+.download svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.address {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-left: 6px;
+  padding: 4px 12px;
+  border: 1.5px solid var(--outline);
+  border-radius: 9999px;
+  background: var(--paper);
+  color: var(--sage);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.address .mono {
+  color: var(--moss-ink);
+}
+
+/* ---------- Buttons ---------- */
+.cta,
+.outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1.5px solid var(--outline);
+  border-radius: 9999px;
+  font-family: var(--plex);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color var(--ease), translate 0.15s ease, box-shadow 0.15s ease;
+}
+.cta {
+  background: var(--accent);
+  color: #26170c;
+  box-shadow: 2px 2px 0 var(--outline);
+}
+.cta:hover {
+  background: var(--marigold);
+  translate: -1px -1px;
+  box-shadow: 3px 3px 0 var(--outline);
+}
+.outline {
+  background: var(--paper);
+  color: var(--moss-ink);
+}
+.outline:hover {
+  background: var(--linen);
+}
+
+/* ---------- Pills ---------- */
+.pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--outline);
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--moss-ink);
+  white-space: nowrap;
+}
+.green {
+  background: #a9d98a;
+}
+.orange {
+  background: var(--flame);
+  color: #fff;
+  font-weight: 600;
+}
+.gold {
+  background: var(--marigold);
+}
+
+/* ---------- Window body: sidebar + scrolling content ---------- */
+.body {
+  display: grid;
+  flex: 1;
+  min-height: 0;
+}
+.content {
+  min-width: 0;
+  container-type: inline-size;
+}
+@media (min-width: 48rem) {
+  .body {
+    grid-template-columns: 150px minmax(0, 1fr);
+  }
+  .content {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: var(--stone) transparent;
+  }
+}
+
+/* ---------- Sidebar ---------- */
+/* Phones: a compact row of folders across the top of the window */
+.folders {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--linen);
+}
+.sidebarLabel {
+  display: none;
+}
+.folderList,
+.resumeLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.folder,
+.download {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  font-family: var(--plex);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--olive);
+  white-space: nowrap;
+  transition: background-color var(--ease), border-color var(--ease), color var(--ease);
+}
+.folder:hover,
+.download:hover {
+  background: var(--stone);
+}
+.folder[aria-selected='true'] {
+  border-color: var(--outline);
+  background: var(--accent);
+  color: #26170c;
+}
+.folder .pixelIcon {
+  transition: translate 0.2s ease;
+}
+.folder:hover .pixelIcon {
+  translate: 0 -1px;
+}
+.folderLabel {
+  line-height: 1.2;
+}
+.downloadLabel {
+  display: none;
+}
+@media (min-width: 48rem) {
+  .folders {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 14px 10px;
+    border-bottom: 0;
+    border-right: 1px solid var(--hairline);
+    overflow: visible;
+  }
+  .sidebarLabel {
+    display: block;
+    padding: 0 6px 4px;
+    font-family: var(--plex);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+  .folderList,
+  .resumeLinks {
+    flex-direction: column;
+  }
+  .resumeLinks {
+    margin-top: 4px;
+  }
+  .download {
+    min-height: 32px;
+    margin-left: 30px;
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .downloadLabel {
+    display: inline;
+  }
+}
+
+/* ---------- Panels: fade between folders ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .panel:not([hidden]) {
+    animation: panel-in 0.28s ease both;
+  }
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* ---------- games/ explorer ---------- */
+.explorer {
+  display: grid;
+  gap: 20px;
+  padding: 16px;
+}
+@container (min-width: 30rem) {
+  .explorer {
+    grid-template-columns: minmax(0, 1fr) 14.5rem;
+    align-items: start;
+    padding: 20px;
+  }
+  .preview {
+    position: sticky;
+    top: 0;
+  }
+}
+.icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 6px;
+  align-content: start;
+}
+.icon {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 4px;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  text-align: center;
+  transition: background-color var(--ease), border-color var(--ease);
+}
+.icon:hover {
+  background: var(--linen);
+}
+.icon[aria-pressed='true'] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+.thumb {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 2px solid var(--outline);
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 4px, rgb(255 255 255 / 0.18) 4px 8px),
+    var(--marigold);
+  box-shadow: 2px 2px 0 rgb(74 52 36 / 0.25);
+  font-family: var(--runde);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--moss-ink);
+  transition: translate 0.2s ease;
+}
+.icons li:nth-child(3n + 2) .thumb {
+  background-color: #9fcf86;
+}
+.icons li:nth-child(3n) .thumb {
+  background-color: #c9a7e6;
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Pixel-art game icons stand on their own, like real desktop icons */
+.icons li .thumb[data-art] {
+  position: relative;
+  width: 72px;
+  overflow: visible;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+/* The game's pixel icon sits on the front of a manila folder */
+.thumb[data-art] .pixelIcon {
+  filter: drop-shadow(2px 2px 0 rgb(74 52 36 / 0.25));
+}
+.thumb[data-art] .folderArt {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 40px;
+  height: 40px;
+  translate: -50% -50%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(1px 1px 0 rgb(74 52 36 / 0.35));
+  transition: translate 0.2s ease;
+}
+.icon:hover .thumb[data-art] .folderArt {
+  translate: -50% -58%;
+}
+.icon:hover .thumb {
+  translate: 0 -2px;
+}
+.iconName {
+  font-family: var(--plex);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--olive);
+}
+.icon[aria-pressed='true'] .iconName {
+  color: var(--accent-text);
+}
+
+.preview {
+  overflow: hidden;
+  border: 1.5px solid var(--outline);
+  border-radius: 12px;
+  background: var(--cream);
+}
+.previewBar {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-bottom: 1.5px solid var(--outline);
+  background: var(--linen);
+  font-family: var(--plex);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sage);
+}
+.previewBody {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+.cover {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1.5px solid var(--outline);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 6px, rgb(255 255 255 / 0.25) 6px 12px),
+    var(--stone);
+  font-family: var(--plex);
+  font-size: 12px;
+  color: var(--olive);
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cover:has(img) {
+  background: var(--paper);
+}
+.previewHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.gameTitle {
+  font-family: var(--runde);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--moss-ink);
+}
+.gameDesc {
+  font-size: 14px;
+  color: var(--olive);
+}
+.facts {
+  display: grid;
+  margin: 0;
+  border-top: 1px solid var(--hairline);
+}
+.facts > div {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 13px;
+}
+.facts dt {
+  font-family: var(--plex);
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--sage);
+}
+.facts dd {
+  margin: 0;
+}
+.mono {
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+/* ---------- Status bar ---------- */
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 5px 12px;
+  border-top: 1px solid var(--hairline);
+  background: var(--linen);
+  color: var(--sage);
+}
+.statusbar .mono {
+  font-size: 12px;
+}
+
+/* ---------- Dock: restore a minimized window ---------- */
+.dock {
+  display: none;
+}
+@media (min-width: 48rem) {
+  .dock {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    display: block;
+    translate: -50% 0;
+  }
+}
+.dockChip,
+.dockNote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 8px;
+  border: 2px solid var(--outline);
+  border-radius: 12px;
+  background: rgb(251 245 232 / 0.94);
+  box-shadow: var(--shadow);
+  font-family: var(--plex);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--moss-ink);
+  white-space: nowrap;
+}
+.dockNote {
+  padding-left: 14px;
+}
+.dockChip {
+  transition: translate 0.15s ease;
+}
+.dockChip:hover {
+  translate: 0 -2px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dockChip,
+  .dockNote {
+    animation: panel-in 0.28s ease both;
+  }
+}
+
+/* ---------- Certifications ---------- */
+.certs {
+  padding: 16px;
+}
+@container (min-width: 30rem) {
+  .certs {
+    padding: 20px;
+  }
+}
+.certGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+  gap: 14px;
+}
+.certCard {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  align-content: start;
+  padding: 10px 10px 14px;
+  border: 1.5px solid var(--outline);
+  border-radius: 12px;
+  background: var(--cream);
+  box-shadow: 2px 2px 0 rgb(74 52 36 / 0.2);
+  text-align: left;
+  transition: background-color var(--ease), translate 0.15s ease, box-shadow 0.15s ease;
+}
+.certCard:hover {
+  background: var(--paper);
+  translate: -1px -1px;
+  box-shadow: 3px 3px 0 rgb(74 52 36 / 0.3);
+}
+.certThumb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 480 / 371;
+  margin-bottom: 6px;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  background: #fff;
+}
+.certThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.certHover {
+  position: absolute;
+  inset: auto 8px 8px auto;
+  padding: 2px 10px;
+  border: 1.5px solid var(--outline);
+  border-radius: 9999px;
+  background: var(--accent);
+  color: #26170c;
+  font-family: var(--plex);
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0;
+  translate: 0 4px;
+  transition: opacity var(--ease), translate 0.2s ease;
+}
+.certCard:hover .certHover,
+.certCard:focus-visible .certHover {
+  opacity: 1;
+  translate: 0 0;
+}
+.certCard:hover .certThumb img {
+  transform: scale(1.03);
+}
+.certGlyph {
+  width: 44px;
+  height: 44px;
+  fill: none;
+  stroke: var(--olive);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.certTitle {
+  font-family: var(--runde);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--moss-ink);
+}
+.certIssuer,
+.certDate {
+  font-family: var(--plex);
+  font-size: 12px;
+  color: var(--sage);
+}
+
+/* ---------- Certificate preview modal ---------- */
+.modal {
+  width: min(60rem, calc(100vw - 24px));
+  max-width: none;
+  max-height: calc(100dvh - 24px);
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid var(--outline);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--moss-ink);
+  box-shadow: var(--shadow);
+}
+.modal::backdrop {
+  background: rgb(46 28 12 / 0.5);
+  backdrop-filter: blur(2px);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .modal[open] {
+    animation: modal-in 0.25s ease both;
+  }
+  .modal[open]::backdrop {
+    animation: backdrop-in 0.25s ease both;
+  }
+}
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+.modalInner {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 28px);
+}
+.modalBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 6px 4px 14px;
+  border-bottom: 2px solid var(--outline);
+  background: var(--linen);
+  color: var(--sage);
+}
+.modalBar .mono {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.close {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  color: var(--moss-ink);
+  transition: background-color var(--ease);
+}
+.close:hover {
+  background: var(--stone);
+}
+.modalBody {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+  overflow: auto;
+}
+.certImage {
+  width: 100%;
+  height: auto;
+  max-height: 68dvh;
+  object-fit: contain;
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+  background: #fff;
+}
+.certPlaceholder {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 12px;
+  aspect-ratio: 1.414 / 1;
+  max-height: 60dvh;
+  border: 1px dashed var(--hairline);
+  border-radius: 6px;
+  background: var(--cream);
+  font-family: var(--plex);
+  font-size: 13px;
+  color: var(--olive);
+}
+.certPlaceholder .certGlyph {
+  width: 64px;
+  height: 64px;
+}
+.modalMeta {
+  display: grid;
+  gap: 2px;
+  justify-items: start;
+}
+.modalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+/* No dark-theme overrides: the desktop is a self-contained daytime scene, so
+   the window keeps its warm cream surfaces in both site themes. */

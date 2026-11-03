@@ -1,0 +1,16 @@
+.logo {
+  display: block;
+  height: auto;
+  user-select: none;
+}
+.script {
+  width: 3.25rem;
+}
+.circle {
+  width: 2.25rem;
+}
+
+/* The mark ships in charcoal ink; lighten it to cream on dark surfaces */
+:root[data-theme='dark'] .logo {
+  filter: brightness(0) invert(0.9) sepia(0.2);
+}

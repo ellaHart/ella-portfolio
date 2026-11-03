@@ -1,0 +1,106 @@
+.list {
+  display: grid;
+  gap: var(--space-9);
+}
+.row {
+  display: grid;
+  gap: var(--space-6);
+}
+.media {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.media img {
+  transition: transform 1.2s var(--ease-out-expo);
+}
+.media:hover img {
+  transform: scale(1.03);
+}
+.info {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+  justify-items: start;
+}
+.index {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  color: var(--ink-faint);
+}
+.title {
+  font-size: var(--text-3xl);
+  line-height: 0.95;
+}
+.title a:hover {
+  font-style: italic;
+}
+.headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-xl);
+  line-height: 1.25;
+  color: var(--ink-soft);
+}
+.facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  width: 100%;
+  margin: 0;
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--color-rule);
+}
+.facts dd {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-sm);
+}
+
+@media (min-width: 60rem) {
+  .row {
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-8);
+  }
+  .item:nth-child(even) .media {
+    order: 2;
+  }
+}
+
+/* ---------- Game development showcase ---------- */
+/* Full-bleed sandy "desk" band so the window reads as sitting on a surface */
+.games {
+  background: var(--desk);
+  padding-block: var(--space-9);
+}
+.gamesHeader {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-7);
+}
+.gamesTitle {
+  font-size: var(--text-3xl);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.gamesTitle em {
+  color: var(--desk-accent); /* taupe darkened for contrast on the sandy band */
+}
+.gamesLede {
+  max-width: 40rem;
+  color: var(--ink);
+}
+.gamesHeader {
+  max-width: calc(958px + var(--gutter) * 2);
+}
+/* Wider than the text so the wallpaper's U statue has room beside the window */
+.gamesDesk {
+  max-width: calc(1240px + var(--gutter) * 2);
+}
+
+/* Video previews: the frame takes the video's own aspect ratio (no letterboxing).
+   content-box keeps the ratio exact even when Creative Mode adds a paper border. */
+.media[data-video] {
+  aspect-ratio: var(--media-ratio);
+  box-sizing: content-box;
+  align-self: center;
+}

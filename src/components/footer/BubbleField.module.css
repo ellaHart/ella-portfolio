@@ -1,0 +1,98 @@
+.wrap {
+  position: relative;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.label {
+  color: #c9bfb3;
+}
+.hand {
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+}
+.score {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: #c9bfb3;
+}
+
+.field {
+  position: relative;
+  height: clamp(9rem, 16vw, 13rem);
+  overflow: hidden;
+  /* Fade the top edge so bubbles dissolve rather than clip */
+  mask-image: linear-gradient(to top, #000 70%, transparent);
+}
+
+.bubble {
+  position: absolute;
+  left: var(--x);
+  bottom: calc(var(--size) * -1);
+  width: var(--size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgb(255 255 255 / 0.55) 0 10%, transparent 24%),
+    radial-gradient(circle at 50% 50%, transparent 58%, rgb(220 206 179 / 0.45) 72%, rgb(220 206 179 / 0.8) 100%);
+  box-shadow: inset 0 0 0 1px rgb(220 206 179 / 0.45);
+  animation: float var(--dur) linear var(--delay) infinite;
+  cursor: pointer;
+  transition: scale 200ms var(--ease-spring);
+}
+.bubble:hover {
+  scale: 1.1;
+}
+.bubble:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 3px;
+}
+.bubble[data-popped] {
+  animation-play-state: paused;
+  pointer-events: none;
+}
+.bubble[data-popped]::after {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
+  border: 2px dotted var(--champagne);
+  animation: burst 450ms var(--ease-out-expo) forwards;
+}
+.bubble[data-popped] {
+  background: none;
+  box-shadow: none;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(var(--drift), calc(clamp(9rem, 16vw, 13rem) * -0.6));
+  }
+  100% {
+    transform: translate(0, calc(clamp(9rem, 16vw, 13rem) * -1 - 100%));
+  }
+}
+@keyframes burst {
+  from {
+    scale: 0.6;
+    opacity: 1;
+  }
+  to {
+    scale: 1.5;
+    opacity: 0;
+  }
+}
+
+/* Reduced motion: bubbles rest in place, still poppable */
+@media (prefers-reduced-motion: reduce) {
+  .bubble {
+    animation: none;
+    bottom: calc(20% + var(--size) * 0.3);
+  }
+}

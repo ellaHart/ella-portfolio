@@ -1,0 +1,89 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Label swaps by sliding: Professional out, Creative in */
+.label {
+  position: relative;
+  display: inline-grid;
+  justify-items: end;
+  overflow: hidden;
+  height: 1.5em;
+  line-height: 1.5;
+}
+.labelPro,
+.labelCreative {
+  grid-area: 1 / 1;
+  transition: transform var(--dur-base) var(--ease-out-expo), opacity var(--dur-base) ease;
+}
+.labelCreative {
+  transform: translateY(110%);
+  opacity: 0;
+  font-family: var(--font-hand);
+  font-size: 1.45em;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  line-height: 1;
+}
+.toggle[data-on] .labelPro {
+  transform: translateY(-110%);
+  opacity: 0;
+}
+.toggle[data-on] .labelCreative {
+  transform: none;
+  opacity: 1;
+}
+
+.track {
+  position: relative;
+  flex-shrink: 0;
+  width: 3.25rem;
+  height: 1.75rem;
+  border: 1px solid var(--charcoal);
+  border-radius: var(--radius-pill);
+  transition: background-color var(--dur-base) ease;
+}
+.toggle[data-on] .track {
+  background: var(--charcoal);
+}
+.thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  display: grid;
+  place-items: center;
+  width: calc(1.75rem - 6px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--charcoal);
+  transition: transform 600ms var(--ease-spring), background-color var(--dur-base) ease, box-shadow var(--dur-fast) ease;
+}
+.toggle[data-on] .thumb {
+  transform: translateX(1.5rem) rotate(180deg);
+  background: var(--champagne);
+}
+.spark {
+  width: 70%;
+  fill: var(--on-paper);
+  transform: scale(0);
+  transition: transform 500ms var(--ease-spring) 120ms;
+}
+.toggle[data-on] .spark {
+  transform: scale(1);
+}
+.toggle:hover .thumb {
+  box-shadow: 0 0 0 4px rgb(220 206 179 / 0.7);
+}
+:root[data-theme='dark'] .toggle[data-on] .track {
+  background: #4a433d;
+  border-color: var(--champagne);
+}

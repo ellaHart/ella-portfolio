@@ -1,0 +1,122 @@
+/* Sticky video card stack (adapted from Skiper UI StickyCard002).
+   Default (no JS / reduced motion): a simple vertical list of video cards.
+   [data-stacked]: GSAP pins the stage and layers the cards on top of each other. */
+
+.section {
+  --card-w: min(100%, 60rem);
+}
+
+.stack {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-8);
+}
+.card {
+  width: var(--card-w);
+  will-change: transform;
+}
+
+/* ---------- Stacked, pinned layout ---------- */
+.section[data-stacked] .stage {
+  display: grid;
+  place-items: center;
+  height: 100svh;
+  padding: calc(var(--header-height) + var(--space-4)) var(--gutter) var(--space-6);
+  overflow: hidden;
+}
+.section[data-stacked] .stack {
+  position: relative;
+  display: block;
+  /* Sized so a 16:9 card plus its caption bar fits the viewport height */
+  width: min(100%, 60rem, calc((100svh - var(--header-height) - 9rem) * 16 / 9));
+  aspect-ratio: 16 / 9.9;
+}
+.section[data-stacked] .card {
+  position: absolute;
+  inset: 0 0 auto;
+  width: 100%;
+  transform-origin: 50% 40%;
+}
+
+/* ---------- Card ---------- */
+.figure {
+  margin: 0;
+  padding: 10px 10px 0;
+  overflow: hidden;
+  border: 1px solid rgb(99 93 86 / 0.18);
+  border-radius: 20px;
+  background: var(--paper);
+  box-shadow:
+    0 30px 60px -30px rgb(46 42 39 / 0.45),
+    0 2px 6px rgb(46 42 39 / 0.06);
+}
+.frame {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #1d1a17;
+}
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* never crop the performance */
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 3.25rem;
+  padding: 0 4px 0 8px;
+  color: var(--on-paper); /* the card stays paper-light in both themes */
+}
+.count {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-label);
+  color: var(--on-paper);
+  opacity: 0.75;
+  white-space: nowrap;
+}
+.caption {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  color: var(--on-paper);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.controls {
+  display: flex;
+  gap: 4px;
+}
+.btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: var(--on-paper);
+  transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+.btn:hover {
+  background: rgb(99 93 86 / 0.12);
+}
+.btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.btn svg path[d^='M7 4.5'] {
+  fill: currentColor;
+}
+
+:root[data-theme='dark'] .figure {
+  border-color: rgb(226 214 193 / 0.14);
+}

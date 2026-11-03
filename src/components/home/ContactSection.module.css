@@ -1,0 +1,117 @@
+.wrap {
+  --footer-ink: var(--night-ink);
+  --footer-muted: #c9bfb3; /* ~9:1 on --night */
+  position: relative;
+  background: var(--night);
+  color: var(--footer-ink);
+  overflow: hidden;
+  margin-top: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+
+.wrap :focus-visible {
+  outline-color: var(--champagne);
+}
+
+/* ---------- Contact ---------- */
+.contact {
+  padding-top: var(--space-section);
+  padding-bottom: var(--space-8);
+}
+.kicker {
+  color: var(--footer-muted);
+  margin-bottom: var(--space-5);
+}
+.heading {
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 1rem + 7.5vw, 10rem);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.025em;
+  color: var(--footer-ink);
+}
+.heading em {
+  font-style: italic;
+  color: var(--champagne);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-7);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid rgb(244 237 226 / 0.18);
+}
+@media (min-width: 60rem) {
+  .grid {
+    grid-template-columns: 1fr 1.4fr 1fr;
+    align-items: start;
+  }
+}
+
+.blurb {
+  max-width: 32ch;
+  color: var(--footer-muted);
+}
+
+.emailRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+.email {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-style: italic;
+  overflow-wrap: anywhere;
+  background: linear-gradient(var(--champagne), var(--champagne)) 0 100% / 0 1px no-repeat;
+  transition: background-size var(--dur-base) var(--ease-out-expo);
+}
+.email:hover {
+  background-size: 100% 1px;
+}
+.copy {
+  padding: 0.3em 0.9em;
+  border: 1px solid rgb(244 237 226 / 0.35);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--footer-muted);
+  transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+.copy:hover {
+  background: var(--footer-ink);
+  color: var(--night);
+}
+
+.socials {
+  display: grid;
+  border-top: 1px solid rgb(244 237 226 / 0.18);
+}
+.social {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid rgb(244 237 226 / 0.18);
+  font-size: var(--text-sm);
+  transition: padding var(--dur-base) var(--ease-out-expo), color var(--dur-fast) ease;
+}
+.socialLabel {
+  flex: 1;
+}
+.socialArrow {
+  opacity: 0.6;
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+.social:hover {
+  padding-left: var(--space-2);
+  color: var(--champagne);
+}
+.social:hover .socialArrow {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
