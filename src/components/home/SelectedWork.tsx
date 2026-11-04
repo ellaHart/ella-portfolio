@@ -175,11 +175,9 @@ export function SelectedWork() {
               Selected Work <span className={styles.count}>({pad(total)})</span>
             </p>
             <h2 id="work-heading" className={styles.introHeading}>
-              Problems worth <em>solving</em>, shipped with care.
+              Problems worth <em>solving.</em>
             </h2>
-            <p className={styles.introCopy}>
-              A few projects that show how I work, from research and interface design through to building the thing.
-            </p>
+            <p className={styles.introCopy}>Selected projects exploring the intersection of design, technology, and human experience.</p>
             <ArrowLink to="/work">All projects</ArrowLink>
             <p className={`hand-note creative-only ${styles.introNote}`} aria-hidden="true">
               keep scrolling →
